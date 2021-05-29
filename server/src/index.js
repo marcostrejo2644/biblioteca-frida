@@ -1,24 +1,20 @@
+const path = require('path');
 const express = require('express');
-const sequelize = require('./database')
-const sequelizeTest = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    co2nsole.error('Unable to connect to the database:', error);
-  }
-}
-
 
 // Initialize
 const app = express();
 app.set('port', process.env.PORT || 8000)
-sequelizeTest();
 
 
 // Middelware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Routes
+app.use('/api/', require(path.join(__dirname, 'routes', 'admins')))
+app.use('/api/', require(path.join(__dirname, 'routes', 'books')))
 
 // Listen
 app.listen(app.get('port'), () => {
-  console.log(`Server on port ${app.get('port')}`);
+  console.log(`Server on port http://localhost:${app.get('port')}`);
 })
