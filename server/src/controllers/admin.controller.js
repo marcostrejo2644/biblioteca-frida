@@ -13,7 +13,6 @@ adminController.addAdmin = async (req, res) => {
     if(verifyEmail !== null) return res.status(409).json({ message: 'Email actualmente en uso o no existe' })
     const admin = Admin.build({username, email, password});
     admin.password = await admin.encryptPassword(password); 
-    console.log(admin);
     // await admin.save();
     res.status(200).json({
       message: 'Admin agregado correctamente',
