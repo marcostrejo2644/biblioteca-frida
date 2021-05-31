@@ -6,6 +6,7 @@ const Lector = sequelize.define('Lector', {
     type: DataTypes.NUMBER,
     primaryKey: true,
     unique: true,
+    autoIncrement: true
   },
   nombre: {
     type: DataTypes.STRING,

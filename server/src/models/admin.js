@@ -7,7 +7,8 @@ const Admin = sequelize.define('Admin', {
   id_admin: {
     type: DataTypes.NUMBER,
     primaryKey: true,
-    unique: true
+    unique: true,
+    autoIncrement: true
   },
   username:{
     type:  DataTypes.STRING,
@@ -29,13 +30,13 @@ const Admin = sequelize.define('Admin', {
   createdAt: false
 });
 
-Admin.encryptPassword = async (password) => {
+Admin.prototype.encryptPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
   const hash = bcrypt.hash(password, salt);
   return hash;
 };
 
-Admin.comparePassword = async function (password) {
+Admin.prototype.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
