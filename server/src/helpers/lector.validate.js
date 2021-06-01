@@ -11,10 +11,11 @@ module.exports = {
     telefono: Joi.number(),
   }),
   updateLector: Joi.object({
-    username: Joi.string(),
-    email: Joi.string()
-      .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
-    password: Joi.string()
-      .required(),
+    nombre: Joi.string(),
+    apellido: Joi.string(),
+    dni: Joi.number(),
+    mail: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+    telefono: Joi.number(),
     }),
 };

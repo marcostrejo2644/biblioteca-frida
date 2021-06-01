@@ -1,4 +1,5 @@
 const adminController = {}
+const jwt = require('jsonwebtoken')
 const Admin = require('../models/admin');
 const tokenCreated = require('../helpers/tokenCreated')
 require('dotenv').config()
@@ -42,5 +43,16 @@ adminController.logIn = async (req, res) => {
   }
 };
 
+// Verify Token
+adminController.verifyToken = async (req, res) => {
+  const decoded = await jwt.verify(req.token, process.env.JWT_SECRET);
+  const userdb = await Admin.findByPk(decoded.user.id_admin);
+  if(userdb !== null && decoded.user.password === userdb.password){
+    res.status(200);
+  }else{
+    res.status(401);
+  }
+
+}
 
 module.exports = adminController;
