@@ -24,11 +24,11 @@ const Reserva = sequelize.define('Reserva', {
     }
   },
   fecha_salida: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false
   },
   fecha_ingreso: {
-    type: DataTypes.NUMBER
+    type: DataTypes.DATEONLY
   }
 }, {
   tableName: 'reservas',

@@ -7,7 +7,8 @@ const validateFunction = require('../controllers/validate.function');
 const validateToken = require('../controllers/token.validate');
 const confirmationToken = require('../controllers/token.confirmation');
 const { getBooks, addBook, editBook, deleteBook,
-        getLector, addLector, editLector, deleteLector } = require('../controllers/main.controller');
+        getLector, addLector, editLector, deleteLector,
+        addReservation, endReservation } = require('../controllers/main.controller');
 
 // Books
 router.get('/get-books', getBooks)
@@ -26,6 +27,11 @@ router.post('/add-lector', [validateToken, confirmationToken], validateFunction(
 router.put('/edit-lector/:id', [validateToken, confirmationToken], validateFunction(updateLector), editLector)
 
 router.delete('/delete-lector/:id', [validateToken, confirmationToken], deleteLector)
+
+// Reservation
+router.post('/add-reservation', [validateToken, confirmationToken], addReservation)
+
+router.post('/end-reservation', [validateToken, confirmationToken], endReservation)
 
 
 module.exports = router;

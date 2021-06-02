@@ -6,7 +6,8 @@ require('dotenv').config()
 const Admin = require('../models/admin');
 const Book = require('../models/libro');
 const Libros_escritos_autores = require('../models/libros_escritos_autores');
-const Lector = require('../models/lector')
+const Lector = require('../models/lector');
+const Reserva = require('../models/reserva');
 
 /* 
   [1] Book Section 
@@ -139,8 +140,30 @@ mainControllers.deleteLector = async (req, res) => {
 /* 
   [3] Reservation Secition
 */
-mainControllers.reservation = async (req, res) => {
-  //Hacer una reserva del libro
+mainControllers.addReservation = async (req, res) => {
+  try {
+    const { id_lector, id_libro, fecha_salida } = req.body
+    await Reserva.create({id_lector, id_libro, fecha_salida})
+    res.status(200).json({ message: 'Reserva creada con exito' })
+  } catch (error) {
+    res.status(422);
+    console.log(error);
+  }
+}
+
+mainControllers.endReservation = async (req, res) => {
+  try {
+    const { id_reserva, fecha_ingreso } = req.body
+    await Reserva.update({fecha_ingreso}, {
+      where: {
+        id_reserva
+      }
+    });
+    res.status(200).json({ message: 'Reserva finalizada con exito' })
+  } catch (error) {
+    res.status(422);
+    console.log(error);
+  }
 }
 
 module.exports = mainControllers;
