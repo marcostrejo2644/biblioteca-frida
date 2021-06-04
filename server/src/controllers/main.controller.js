@@ -8,6 +8,7 @@ const Book = require('../models/libro');
 const Libros_escritos_autores = require('../models/libros_escritos_autores');
 const Lector = require('../models/lector');
 const Reserva = require('../models/reserva');
+const Libro = require('../models/libro');
 
 /* 
   [1] Book Section 
@@ -142,8 +143,13 @@ mainControllers.deleteLector = async (req, res) => {
 */
 mainControllers.addReservation = async (req, res) => {
   try {
-    const { id_lector, id_libro, fecha_salida } = req.body
-    await Reserva.create({id_lector, id_libro, fecha_salida})
+    const { id_lector, id_libro, fecha_salida } = req.body;
+    await Reserva.create({id_lector, id_libro, fecha_salida});
+    await Libro.update({reservado = true}, {
+      where:{
+        id_libro
+      }
+    })
     res.status(200).json({ message: 'Reserva creada con exito' })
   } catch (error) {
     res.status(422);
