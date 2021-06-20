@@ -10,7 +10,8 @@ module.exports = {
     fecha_lanzamiento: Joi.number().required(),
     reservado: Joi.boolean().required(),
     img: Joi.string(),
-    id_autor: Joi.number()
+    id_autor: Joi.number(),
+    descripcion: Joi.string()
   }),
   updateBook: Joi.object({
     nombre: Joi.string(),
@@ -21,6 +22,7 @@ module.exports = {
     fecha_lanzamiento: Joi.number(),
     reservado: Joi.boolean(),
     img: Joi.string(),
-    id_autor: Joi.number()
+    id_autor: Joi.number(),
+    descripcion: Joi.string()
     }),
 };

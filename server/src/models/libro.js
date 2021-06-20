@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database');
+const Reserva = require('./reserva');
+const Reservas = require('./reserva');
 
 const Libro = sequelize.define('Libro',{
   id_libro: {
@@ -41,11 +43,18 @@ const Libro = sequelize.define('Libro',{
   img: {
     type: DataTypes.STRING,
     unique: true
+  },
+  descripcion:{
+    type: DataTypes.STRING
   }
 }, {
   tableName: 'libros',
   timestamps: false,
   createdAt: false
 });
+
+Libro.hasMany(Reserva, {
+  foreignKey: 'id_lector'
+})
 
 module.exports = Libro;
