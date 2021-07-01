@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.5.9-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19  Distrib 10.5.10-MariaDB, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: libreria_frida
 -- ------------------------------------------------------
--- Server version	10.5.9-MariaDB
+-- Server version	10.5.10-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,35 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `admins`
+--
+
+DROP TABLE IF EXISTS `admins`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `admins` (
+  `id_admin` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(90) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_admin`),
+  UNIQUE KEY `id_admin_UNIQUE` (`id_admin`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `admins`
+--
+
+LOCK TABLES `admins` WRITE;
+/*!40000 ALTER TABLE `admins` DISABLE KEYS */;
+INSERT INTO `admins` VALUES (1,'marcos','trejomarcosf@live.com','$2a$10$Caj.1KvmWD4mhfIEnYtOWeMkWlfdtdyvAdXX2wEQlckMFa4e3l8n2');
+/*!40000 ALTER TABLE `admins` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `autores`
@@ -51,7 +80,7 @@ DROP TABLE IF EXISTS `lectores`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lectores` (
-  `id_lector` int(20) NOT NULL,
+  `id_lector` int(20) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(60) NOT NULL,
   `apellido` varchar(45) NOT NULL,
   `dni` int(10) DEFAULT NULL,
@@ -59,7 +88,7 @@ CREATE TABLE `lectores` (
   `telefono` int(20) DEFAULT NULL,
   PRIMARY KEY (`id_lector`),
   UNIQUE KEY `id_lector_UNIQUE` (`id_lector`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,17 +111,17 @@ DROP TABLE IF EXISTS `libros`;
 CREATE TABLE `libros` (
   `id_libro` int(20) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
-  `idioma` varchar(25) NOT NULL,
+  `idioma` varchar(100) NOT NULL,
   `pagina` int(7) NOT NULL,
   `editorial` varchar(100) NOT NULL,
   `categoria` varchar(30) NOT NULL,
   `fecha_lanzamiento` year(4) NOT NULL,
-  `reservado` tinyint(4) NOT NULL DEFAULT 0,
+  `reservado` tinyint(4) NOT NULL,
   `img` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_libro`),
   UNIQUE KEY `id_libro_UNIQUE` (`id_libro`),
   UNIQUE KEY `img_UNIQUE` (`img`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,7 +146,7 @@ CREATE TABLE `libros_escritos_autores` (
   `id_autor` int(20) NOT NULL,
   KEY `fk_libros_escritos_autores_idx` (`id_libro`),
   KEY `fk_autores_escritos_libros_1_idx` (`id_autor`),
-  CONSTRAINT `fk_autores_escritos_libros_1` FOREIGN KEY (`id_autor`) REFERENCES `autores` (`id_autor`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_autores_escritos_autores` FOREIGN KEY (`id_autor`) REFERENCES `autores` (`id_autor`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_libros_escritos_autores` FOREIGN KEY (`id_libro`) REFERENCES `libros` (`id_libro`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -140,18 +169,18 @@ DROP TABLE IF EXISTS `reservas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `reservas` (
-  `id_reserva` int(20) NOT NULL,
+  `id_reserva` int(20) NOT NULL AUTO_INCREMENT,
   `id_libro` int(20) NOT NULL,
   `id_lector` int(20) NOT NULL,
   `fecha_salida` date NOT NULL,
   `fecha_ingreso` date DEFAULT NULL,
   PRIMARY KEY (`id_reserva`),
   UNIQUE KEY `id_reservas_UNIQUE` (`id_reserva`),
-  KEY `fk_lectores_reservas_idx` (`id_lector`),
   KEY `fk_libros_reservas_idx` (`id_libro`),
+  KEY `fk_lectores_reservas_idx` (`id_lector`),
   CONSTRAINT `fk_lectores_reservas` FOREIGN KEY (`id_lector`) REFERENCES `lectores` (`id_lector`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_libros_reservas` FOREIGN KEY (`id_libro`) REFERENCES `libros` (`id_libro`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +189,7 @@ CREATE TABLE `reservas` (
 
 LOCK TABLES `reservas` WRITE;
 /*!40000 ALTER TABLE `reservas` DISABLE KEYS */;
-INSERT INTO `reservas` VALUES (1,1,4,'2018-04-01','2018-04-07'),(2,2,5,'2018-04-09','2018-04-16'),(3,3,2,'2018-04-23','2018-04-30'),(4,4,4,'2018-04-08','2018-04-20'),(5,5,5,'2018-04-12','2018-04-19'),(6,6,2,'2018-04-05','2018-04-12'),(7,7,1,'2018-04-03','2018-04-12'),(8,8,3,'2018-04-03','2018-04-30'),(9,9,3,'2018-04-22',NULL),(10,10,5,'2018-04-10','2018-04-19');
+INSERT INTO `reservas` VALUES (1,1,4,'2018-04-01','2018-04-07'),(2,2,5,'2018-04-09','2018-04-16'),(3,3,2,'2018-04-23','2018-04-30'),(4,4,4,'2018-04-08','2018-04-20'),(5,5,5,'2018-04-12','2018-04-19'),(6,6,2,'2018-04-05','2018-04-12'),(7,7,1,'2018-04-03','2018-04-12'),(8,8,3,'2018-04-03','2018-04-30'),(9,9,3,'2018-04-22',NULL),(10,10,5,'2018-04-10','2018-04-19'),(11,2,1,'2021-05-04','2021-04-27'),(12,2,1,'2021-04-26',NULL);
 /*!40000 ALTER TABLE `reservas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -173,4 +202,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-23 16:01:36
+-- Dump completed on 2021-06-04 20:02:21
